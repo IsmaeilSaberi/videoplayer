@@ -36,13 +36,23 @@ const VideoPlayer = ({ src }) => {
     if (inp == 1) {
       videoRef.current.requestPictureInPicture();
     } else {
-      document.exitPictureInPicture;
+      document.exitPictureInPicture();
+    }
+  };
+
+  // FULLSCREEN
+  const fullscreenRef = useRef();
+  const fullscreenHandler = (inp) => {
+    if (inp == 1) {
+      fullscreenRef.current.requestFullscreen();
+    } else {
+      document.exitFullscreen();
     }
   };
 
   return (
     <div className="flex justify-center items-center">
-      <div className="relative w-[95%] max-w-[1000px]">
+      <div ref={fullscreenRef} className="relative w-[95%] max-w-[1000px]">
         <div className="ctrls absolute right-2 left-2 bottom-1 z-30">
           <div className="bg-transparent text-white p-3 rounded-md flex flex-col gap-3">
             <div className="duration-bar w-full bg-white ">duration bar</div>
@@ -113,13 +123,23 @@ const VideoPlayer = ({ src }) => {
                   />
                 </button>
                 <button className="text-2xl">
-                  <BiFullscreen />
+                  <BiFullscreen
+                    onClick={() => {
+                      !document.fullscreenElement
+                        ? fullscreenHandler(1)
+                        : fullscreenHandler(0);
+                    }}
+                  />
                 </button>
               </div>
             </div>
           </div>
         </div>
-        <video ref={videoRef} src={src} className="rounded-lg w-full z-20" />
+        <video
+          ref={videoRef}
+          src={src}
+          className="rounded-lg w-full z-20 h-full"
+        />
       </div>
     </div>
   );
