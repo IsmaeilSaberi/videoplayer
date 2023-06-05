@@ -3,7 +3,7 @@ import { IoPlay, IoPause } from "react-icons/io5";
 import { FiVolume2, FiVolumeX } from "react-icons/fi";
 import { CgMiniPlayer } from "react-icons/cg";
 import { BiFullscreen } from "react-icons/bi";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 
 const VideoPlayer = ({ src }) => {
   const videoRef = useRef();
@@ -83,7 +83,7 @@ const VideoPlayer = ({ src }) => {
     <div className="flex justify-center items-center">
       <div ref={fullscreenRef} className="relative w-[95%] max-w-[1000px]">
         <div className="ctrls absolute right-2 left-2 bottom-1 z-30">
-          <div className="bg-transparent text-white p-3 rounded-md flex flex-col gap-3">
+          <div className="bg-transparent text-white p-3 rounded-md flex flex-col gap-3 opacity-0 transition-all duration-300 hover:opacity-100">
             <div className="duration-bar w-full flex justify-between items-center gap-2">
               <div className="w-10">{timeBeauty(nowTime)}</div>
               <div className="w-full">
@@ -92,7 +92,6 @@ const VideoPlayer = ({ src }) => {
                     setNowTime(e.target.value);
                     videoTimeRef.current.value = e.target.value;
                     videoRef.current.currentTime = e.target.value;
-                    // playingHandler(0);
                   }}
                   ref={videoTimeRef}
                   type="range"
@@ -103,7 +102,11 @@ const VideoPlayer = ({ src }) => {
                   className="video-player-input h-2 cursor-pointer appearance-none rounded-lg border-transparent transparent w-full"
                 />
               </div>
-              <div className="w-10">{timeBeauty(fullTime)}</div>
+              <div className="w-10">
+                {timeBeauty(fullTime) == "Nan:Nan"
+                  ? "00:00"
+                  : timeBeauty(fullTime)}
+              </div>
             </div>
             <div className="flex justify-between items-center">
               <div className="flex gap-2">
@@ -185,6 +188,9 @@ const VideoPlayer = ({ src }) => {
           </div>
         </div>
         <video
+          onClick={() =>
+            isPlaying == 1 ? playingHandler(0) : playingHandler(1)
+          }
           loop
           ref={videoRef}
           src={src}
