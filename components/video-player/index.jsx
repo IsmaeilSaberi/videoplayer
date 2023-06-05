@@ -20,6 +20,17 @@ const VideoPlayer = ({ src }) => {
   const [oldVolume, setOLdVolume] = useState(1);
   const volumeInputRef = useRef();
 
+  // SPEED
+  const [videoSpeed, setVideoSpeed] = useState(1);
+  const speedHandler = () => {
+    let newSpeed = videoSpeed + 0.25;
+    if (newSpeed > 2.25) {
+      newSpeed = 0.5;
+    }
+    setVideoSpeed(newSpeed);
+    videoRef.current.playbackRate = newSpeed;
+  };
+
   return (
     <div className="flex justify-center items-center">
       <div className="relative w-[95%] max-w-[1000px]">
@@ -80,7 +91,9 @@ const VideoPlayer = ({ src }) => {
                 </div>
               </div>
               <div className="flex gap-2">
-                <button className="text-xl">1.5x</button>
+                <button onClick={() => speedHandler()} className="text-xl">
+                  {videoSpeed}x
+                </button>
                 <button className="text-2xl">
                   <CgMiniPlayer />
                 </button>
