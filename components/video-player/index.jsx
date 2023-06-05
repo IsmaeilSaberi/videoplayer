@@ -9,12 +9,16 @@ const VideoPlayer = ({ src }) => {
   const videoRef = useRef();
   const [isPlaying, setIsPlaying] = useState(0);
 
+  // PLAY AND PAUSE
   const playingHandler = (inp) => {
     inp == 1 ? videoRef.current.play() : videoRef.current.pause();
     setIsPlaying(inp);
   };
 
-  // PLAY AND PAUSE
+  // VOLUME
+  const [volume, setVolume] = useState(1);
+  const [oldVolume, setOLdVolume] = useState(1);
+  const volumeInputRef = useRef();
 
   return (
     <div className="flex justify-center items-center">
@@ -40,18 +44,40 @@ const VideoPlayer = ({ src }) => {
                   )}
                 </button>
                 <button className="text-2xl">
-                  <FiVolume2 />
+                  {volume == 0 ? (
+                    <FiVolumeX
+                      onClick={(e) => {
+                        setVolume(oldVolume);
+                        volumeInputRef.current.value = oldVolume;
+                        videoRef.current.volume = oldVolume;
+                      }}
+                    />
+                  ) : (
+                    <FiVolume2
+                      onClick={(e) => {
+                        setVolume(0);
+                        volumeInputRef.current.value = 0;
+                        videoRef.current.volume = 0;
+                      }}
+                    />
+                  )}
                 </button>
-                <button className="text-2xl">
-                  <FiVolumeX />
-                </button>
-                <input
-                  type="range"
-                  step={"any"}
-                  min={0}
-                  max={1}
-                  className="video-player-input"
-                />
+                <div>
+                  <input
+                    onChange={(e) => {
+                      volumeInputRef.current.value = e.target.value;
+                      setVolume(e.target.value);
+                      setOLdVolume(e.target.value);
+                      videoRef.current.volume = e.target.value;
+                    }}
+                    ref={volumeInputRef}
+                    type="range"
+                    step={"any"}
+                    min={0}
+                    max={1}
+                    className="video-player-input h-2 cursor-pointer appearance-none rounded-lg border-transparent bg-neutral-200"
+                  />
+                </div>
               </div>
               <div className="flex gap-2">
                 <button className="text-xl">1.5x</button>
