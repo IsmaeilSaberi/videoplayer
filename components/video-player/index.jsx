@@ -83,10 +83,12 @@ const VideoPlayer = ({ src }) => {
     <div className="flex justify-center items-center">
       <div ref={fullscreenRef} className="relative w-[95%] max-w-[1000px]">
         <div className="ctrls absolute right-2 left-2 bottom-1 z-30">
-          <div className="bg-transparent text-white p-3 rounded-md flex flex-col gap-3 opacity-0 transition-all duration-300 hover:opacity-100">
-            <div className="duration-bar w-full flex justify-between items-center gap-2">
-              <div className="w-10">{timeBeauty(nowTime)}</div>
-              <div className="w-full">
+          <div className="bg-transparent text-white p-1 md:p-3 flex flex-col gap-2 transition-all duration-300 hover:opacity-100">
+            <div className="duration-bar w-full flex justify-center md:justify-between items-center gap-3 md:gap-2 p-1">
+              <div className="text-xs md:text-base w-4 md:w-10">
+                {timeBeauty(nowTime)}
+              </div>
+              <div className="w-[90%] flex justify-center items-center md:w-full">
                 <input
                   onChange={(e) => {
                     setNowTime(e.target.value);
@@ -99,18 +101,18 @@ const VideoPlayer = ({ src }) => {
                   min={0}
                   max={fullTime}
                   defaultValue={0}
-                  className="video-player-input h-2 cursor-pointer appearance-none rounded-lg border-transparent transparent w-full"
+                  className="video-player-input h-[0.1rem] cursor-pointer appearance-none rounded-lg border-transparent transparent w-[95%] md:w-full"
                 />
               </div>
-              <div className="w-10">
+              <div className="text-xs md:text-base w-4 md:w-10">
                 {timeBeauty(fullTime) == "Nan:Nan"
                   ? "00:00"
                   : timeBeauty(fullTime)}
               </div>
             </div>
             <div className="flex justify-between items-center">
-              <div className="flex gap-2">
-                <button className="text-2xl">
+              <div className="flex gap-1 md:gap-2">
+                <button className="text-md md:text-2xl">
                   {isPlaying == 0 ? (
                     <IoPlay
                       onClick={() => {
@@ -125,7 +127,7 @@ const VideoPlayer = ({ src }) => {
                     />
                   )}
                 </button>
-                <button className="text-2xl">
+                <button className="text-md md:text-2xl">
                   {volume == 0 ? (
                     <FiVolumeX
                       onClick={(e) => {
@@ -144,7 +146,7 @@ const VideoPlayer = ({ src }) => {
                     />
                   )}
                 </button>
-                <div>
+                <div className="flex justify-center items-center w-[50%]">
                   <input
                     onChange={(e) => {
                       volumeInputRef.current.value = e.target.value;
@@ -157,15 +159,18 @@ const VideoPlayer = ({ src }) => {
                     step={"any"}
                     min={0}
                     max={1}
-                    className="video-player-input h-2 cursor-pointer appearance-none rounded-lg border-transparent bg-neutral-200"
+                    className="video-player-input w-[90%] h-[0.1rem] cursor-pointer appearance-none rounded-lg border-transparent bg-neutral-200"
                   />
                 </div>
               </div>
-              <div className="flex gap-2">
-                <button onClick={() => speedHandler()} className="text-xl">
+              <div className="flex gap-1 md:gap-2">
+                <button
+                  onClick={() => speedHandler()}
+                  className="text-xs md:text-xl"
+                >
                   {videoSpeed}x
                 </button>
-                <button className="text-2xl">
+                <button className="text-md md:text-2xl">
                   <CgMiniPlayer
                     onClick={() => {
                       !document.pictureInPictureElement
@@ -174,7 +179,7 @@ const VideoPlayer = ({ src }) => {
                     }}
                   />
                 </button>
-                <button className="text-2xl">
+                <button className="text-md md:text-2xl">
                   <BiFullscreen
                     onClick={() => {
                       !document.fullscreenElement
@@ -194,7 +199,7 @@ const VideoPlayer = ({ src }) => {
           loop
           ref={videoRef}
           src={src}
-          className="rounded-lg w-full z-20 h-full"
+          className="rounded w-full z-20 h-full"
         />
       </div>
     </div>
