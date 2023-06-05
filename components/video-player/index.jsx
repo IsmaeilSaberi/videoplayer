@@ -31,6 +31,15 @@ const VideoPlayer = ({ src }) => {
     videoRef.current.playbackRate = newSpeed;
   };
 
+  // PICTURE IN PICTURE
+  const pictureInPictureHandler = (inp) => {
+    if (inp == 1) {
+      videoRef.current.requestPictureInPicture();
+    } else {
+      document.exitPictureInPicture;
+    }
+  };
+
   return (
     <div className="flex justify-center items-center">
       <div className="relative w-[95%] max-w-[1000px]">
@@ -95,7 +104,13 @@ const VideoPlayer = ({ src }) => {
                   {videoSpeed}x
                 </button>
                 <button className="text-2xl">
-                  <CgMiniPlayer />
+                  <CgMiniPlayer
+                    onClick={() => {
+                      !document.pictureInPictureElement
+                        ? pictureInPictureHandler(1)
+                        : pictureInPictureHandler(0);
+                    }}
+                  />
                 </button>
                 <button className="text-2xl">
                   <BiFullscreen />
